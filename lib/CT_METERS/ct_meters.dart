@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 // import 'package:dropdown_search/dropdown_search.dart';
 
+// ignore: camel_case_types
 class CT_METERS extends StatefulWidget {
   const CT_METERS({super.key});
 
@@ -17,6 +18,8 @@ class _CT_METERSState extends State<CT_METERS> {
   String? selectedSubDivision;
   String? selectedSection;
   DateTime? selectedDate;
+
+  String? selectedService;
 
   String? selectedComplaint1;
   String? selectedComplaint2;
@@ -84,6 +87,84 @@ class _CT_METERSState extends State<CT_METERS> {
   }
 
   bool isChecked = false;
+
+
+  List<String> allData = [
+    "Alpha",
+    "Beta",
+    "Gamma",
+    "Delta",
+    "Epsilon",
+    "Zeta",
+    "Theta",
+    "Iota",
+    "Kappa",
+  ]; // Sample data
+  List<String> filteredData = [];
+void _openSearchDialog() {
+  filteredData = List.from(allData);
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            title: const Text("Search Service Details"),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    decoration: const InputDecoration(
+                      hintText: "Search...",
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                    onChanged: (value) {
+                      setDialogState(() {
+                        filteredData = allData
+                            .where((item) => item
+                                .toLowerCase()
+                                .contains(value.toLowerCase()))
+                            .toList();
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      itemCount: filteredData.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(filteredData[index]),
+                          onTap: () {
+                            // Update parent dropdown
+                            setState(() {
+                              selectedService = filteredData[index];
+                            });
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Close"),
+              )
+            ],
+          );
+        },
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +243,6 @@ class _CT_METERSState extends State<CT_METERS> {
                       ),
                       const SizedBox(height: 12),
 
-                      // Sub-Division Dropdown
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -445,12 +525,12 @@ class _CT_METERSState extends State<CT_METERS> {
                         children: [
                           Expanded(
                             child: DropdownButtonFormField<String>(
-                              value: selectedComplaint3,
+                              value: selectedService,
                               decoration: const InputDecoration(
                                 labelStyle: TextStyle(color: Colors.red),
                                 border: OutlineInputBorder(),
                               ),
-                              items: ["Not Applicable"]
+                              items:allData
                                   .map(
                                     (status) => DropdownMenuItem(
                                       value: status,
@@ -460,7 +540,7 @@ class _CT_METERSState extends State<CT_METERS> {
                                   .toList(),
                               onChanged: (value) {
                                 setState(() {
-                                  selectedComplaint3 = value;
+                                  selectedService = value;
                                 });
                               },
                             ),
@@ -475,9 +555,7 @@ class _CT_METERSState extends State<CT_METERS> {
                               shape: BoxShape.rectangle,
                             ),
                             child: IconButton(
-                              onPressed: () {
-                                // Add search functionality here
-                              },
+                              onPressed:_openSearchDialog,
                               icon: const Icon(
                                 Icons.search,
                                 color: Colors.white,
@@ -832,16 +910,6 @@ class _CT_METERSState extends State<CT_METERS> {
                                   horizontal: 10,
                                 ),
                               ),
-
-                              // textAlign: TextAlign.right,
-                              // decoration: InputDecoration(
-                              //   hintText: "MM/YY",
-                              //   border: OutlineInputBorder(),
-                              //   contentPadding: EdgeInsets.symmetric(
-                              //     vertical: 8,
-                              //     horizontal: 10,
-                              //   ),
-                              // ),
                             ),
                           ),
                         ],
