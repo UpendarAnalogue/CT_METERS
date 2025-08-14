@@ -1,7 +1,9 @@
 import 'dart:core';
 // import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
-
+// ignore: depend_on_referenced_packages
+// import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 // import 'package:dropdown_search/dropdown_search.dart';
 
@@ -218,28 +220,51 @@ void _openSearchDialog() {
                         ],
                       ),
 
-                      DropdownButtonFormField<String>(
-                        value: selectedDivision,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        hint: const Text("SELECT"), // placeholder
-                        items: selectDivision
-                            .map(
-                              (item) => DropdownMenuItem(
-                                value: item,
-                                child: Text(item),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedDivision = value;
-                            selectedSubDivision =
-                                selectSubDivision[0]; // reset next
-                            selectedSection = null; // reset third
-                          });
-                        },
+                      // DropdownButtonFormField<String>(
+                      //   value: selectedDivision,
+                      //   decoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   hint: const Text("SELECT"), // placeholder
+                      //   items: selectDivision
+                      //       .map(
+                      //         (item) => DropdownMenuItem(
+                      //           value: item,
+                      //           child: Text(item),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectedDivision = value;
+                      //       selectedSubDivision =
+                      //           selectSubDivision[0]; // reset next
+                      //       selectedSection = null; // reset third
+                      //     });
+                      //   },
+                      // ),
+                      DropdownButtonFormField2<String>(
+  isExpanded: true,
+   value: selectedDivision,
+  decoration: InputDecoration(
+    hintText: "SELECT",
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+  items: selectDivision
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+  onChanged: (value) {
+    setState(() {
+          selectedDivision = value;
+                    selectedSubDivision =
+                            selectSubDivision[0]; // reset next
+                         selectedSection = null; // reset third
+    });
+  },
                       ),
                       const SizedBox(height: 12),
 
@@ -252,31 +277,51 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-
-                      DropdownButtonFormField<String>(
-                        value: selectedSubDivision,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        // hint: const Text("Select"), // placeholder
-                        items: selectSubDivision
-                            .map(
-                              (item) => DropdownMenuItem(
-                                value: item,
-                                child: Text(item),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: selectedDivision == null
-                            ? null // disabled until division selected
-                            : (value) {
-                                setState(() {
-                                  selectedSubDivision = value;
-                                  selectedSection =
-                                      selectSection[0]; // reset next
-                                });
-                              },
+DropdownButtonFormField2<String>(
+  isExpanded: true,
+  value: selectedSubDivision,
+  decoration: InputDecoration(
+    // hintText: "SELECT",
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+   items: selectSubDivision
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+  onChanged: (value) {
+    setState(() {
+           selectedSubDivision = value;
+              selectedSection = selectSection[0]; 
+    });
+  },
                       ),
+                      // DropdownButtonFormField<String>(
+                      //   value: selectedSubDivision,
+                      //   decoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   // hint: const Text("Select"), // placeholder
+                      //   items: selectSubDivision
+                      //       .map(
+                      //         (item) => DropdownMenuItem(
+                      //           value: item,
+                      //           child: Text(item),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: selectedDivision == null
+                      //       ? null // disabled until division selected
+                      //       : (value) {
+                      //           setState(() {
+                      //             selectedSubDivision = value;
+                      //             selectedSection =
+                      //                 selectSection[0]; // reset next
+                      //           });
+                      //         },
+                      // ),
                       const SizedBox(height: 12),
 
                       // Status Dropdown
@@ -290,28 +335,53 @@ void _openSearchDialog() {
                         ],
                       ),
 
-                      DropdownButtonFormField<String>(
-                        value: selectedSection,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        // hint: const Text("Select"), // placeholder
-                        items: selectSection
-                            .map(
-                              (item) => DropdownMenuItem(
-                                value: item,
-                                child: Text(item),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: selectedSubDivision == null
+                      
+                      DropdownButtonFormField2<String>(
+  isExpanded: true,
+   value: selectedSection,
+  decoration: InputDecoration(
+    // hintText: "SELECT",
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+   items: selectSection
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+ onChanged: selectedSubDivision == null
                             ? null // disabled until sub-division selected
-                            : (value) {
-                                setState(() {
-                                  selectedSection = value;
-                                });
-                              },
+                          : (value) {
+                          setState(() {
+                             selectedSection = value;
+    });
+  },
                       ),
+                      
+
+                      // DropdownButtonFormField<String>(
+                      //   value: selectedSection,
+                      //   decoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   // hint: const Text("Select"), // placeholder
+                      //   items: selectSection
+                      //       .map(
+                      //         (item) => DropdownMenuItem(
+                      //           value: item,
+                      //           child: Text(item),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: selectedSubDivision == null
+                      //       ? null // disabled until sub-division selected
+                      //       : (value) {
+                      //           setState(() {
+                      //             selectedSection = value;
+                      //           });
+                      //         },
+                      // ),
                       const SizedBox(height: 12),
 
                       Row(
@@ -376,35 +446,67 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-                      DropdownButtonFormField<String>(
-                        value: selectedComplaint1,
-                        decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
-                          border: OutlineInputBorder(),
-                        ),
-                        items:
-                            [
-                                  "Cable Change",
-                                  "Phase down Rectification",
-                                  "Phase down-Meter Replaced",
-                                  "No Display-Meter Replaced",
-                                  " Meter Burnt-Meter Replaced",
-                                  " Meter Burnt-Meter(No Display) Replaced",
-                                  " Meter Defective-Meter Replaced",
-                                ]
-                                .map(
-                                  (div) => DropdownMenuItem(
-                                    value: div,
-                                    child: Text(div),
-                                  ),
-                                )
-                                .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedComplaint1 = value;
-                          });
-                        },
+
+                      DropdownButtonFormField2<String>(
+  isExpanded: true,
+   value: selectedComplaint1,
+  decoration: InputDecoration(
+    hintText: "Select",
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+  items: [
+    
+    "Cable Change",
+    "Phase down Rectification",
+    "Phase down-Meter Replaced",
+    "No Display-Meter Replaced",
+    "Meter Burnt-Meter Replaced",
+    "Meter Burnt-Meter(No Display) Replaced",
+    "Meter Defective-Meter Replaced",
+  ]
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+  onChanged: (value) {
+    setState(() {
+      selectedComplaint1 = value;
+    });
+  },
                       ),
+                      // DropdownButtonFormField<String>(
+                      //   value: selectedComplaint1,
+                        
+                      //   decoration: const InputDecoration(
+                      //     hintText: "Select",
+                      //     labelStyle: TextStyle(color: Colors.red),
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   items:
+                      //       [
+                      //             "Cable Change",
+                      //             "Phase down Rectification",
+                      //             "Phase down-Meter Replaced",
+                      //             "No Display-Meter Replaced",
+                      //             " Meter Burnt-Meter Replaced",
+                      //             " Meter Burnt-Meter(No Display) Replaced",
+                      //             " Meter Defective-Meter Replaced",
+                      //           ]
+                      //           .map(
+                      //             (div) => DropdownMenuItem(
+                      //               value: div,
+                      //               child: Text(div),
+                      //             ),
+                      //           )
+                      //           .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectedComplaint1 = value;
+                      //     });
+                      //   },
+                      // ),
                       const SizedBox(height: 12),
 
                       // Sub-Division Dropdown
@@ -417,36 +519,72 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-                      DropdownButtonFormField<String>(
-                        value: selectedComplaint2,
-                        decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
-                          border: OutlineInputBorder(),
-                        ),
-                        items:
-                            [
-                                  "Not Applicable",
-                                  "Cable Change",
-                                  "Phase down Rectification",
-                                  "Phase down-Meter Replaced",
-                                  "No Display-Meter Replaced",
-                                  " Meter Burnt-Meter Replaced",
-                                  " Meter Burnt-Meter(No Display) Replaced",
-                                  " Meter Defective-Meter Replaced",
-                                ]
-                                .map(
-                                  (sub) => DropdownMenuItem(
-                                    value: sub,
-                                    child: Text(sub),
-                                  ),
-                                )
-                                .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedComplaint2 = value;
-                          });
-                        },
-                      ),
+
+
+DropdownButtonFormField2<String>(
+  isExpanded: true,
+  value: selectedComplaint2,
+  decoration: InputDecoration(
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+  items: [
+    "Not Applicable",
+    "Cable Change",
+    "Phase down Rectification",
+    "Phase down-Meter Replaced",
+    "No Display-Meter Replaced",
+    "Meter Burnt-Meter Replaced",
+    "Meter Burnt-Meter(No Display) Replaced",
+    "Meter Defective-Meter Replaced",
+  ]
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+  onChanged: (value) {
+    setState(() {
+       selectedComplaint2 = value;
+    });
+  },
+  // dropdownMaxHeight: 200,
+// dropdownDecoration: BoxDecoration(
+    //borderRadius: BorderRadius.circular(8),
+  ),
+//),
+
+
+                      // DropdownButtonFormField<String>(
+                      //   value: selectedComplaint2,
+                      //   decoration: const InputDecoration(
+                      //     labelStyle: TextStyle(color: Colors.red),
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   items:
+                      //       [
+                      //             "Not Applicable",
+                      //             "Cable Change",
+                      //             "Phase down Rectification",
+                      //             "Phase down-Meter Replaced",
+                      //             "No Display-Meter Replaced",
+                      //             " Meter Burnt-Meter Replaced",
+                      //             " Meter Burnt-Meter(No Display) Replaced",
+                      //             " Meter Defective-Meter Replaced",
+                      //           ]
+                      //           .map(
+                      //             (sub) => DropdownMenuItem(
+                      //               value: sub,
+                      //               child: Text(sub),
+                      //             ),
+                      //           )
+                      //           .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectedComplaint2 = value;
+                      //     });
+                      //   },
+                      // ),
                       const SizedBox(height: 12),
 
                       // Status Dropdown
@@ -459,36 +597,65 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-                      DropdownButtonFormField<String>(
-                        value: selectedComplaint3,
-                        decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
-                          border: OutlineInputBorder(),
-                        ),
-                        items:
-                            [
-                                  "Not Applicable",
-                                  "Cable Change",
-                                  "Phase down Rectification",
-                                  "Phase down-Meter Replaced",
-                                  "No Display-Meter Replaced",
-                                  " Meter Burnt-Meter Replaced",
-                                  " Meter Burnt-Meter(No Display) Replaced",
-                                  " Meter Defective-Meter Replaced",
-                                ]
-                                .map(
-                                  (status) => DropdownMenuItem(
-                                    value: status,
-                                    child: Text(status),
-                                  ),
-                                )
-                                .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedComplaint3 = value;
-                          });
-                        },
-                      ),
+
+                      DropdownButtonFormField2<String>(
+  isExpanded: true,
+  value: selectedComplaint3,
+  decoration: InputDecoration(
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+  items: [
+    "Not Applicable",
+    "Cable Change",
+    "Phase down Rectification",
+    "Phase down-Meter Replaced",
+    "No Display-Meter Replaced",
+    "Meter Burnt-Meter Replaced",
+    "Meter Burnt-Meter(No Display) Replaced",
+    "Meter Defective-Meter Replaced",
+  ]
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+  onChanged: (value) {
+    setState(() {
+      selectedComplaint3 = value;
+    });
+  },),
+
+                      // DropdownButtonFormField<String>(
+                      //   value: selectedComplaint3,
+                      //   decoration: const InputDecoration(
+                      //     labelStyle: TextStyle(color: Colors.red),
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   items:
+                      //       [
+                      //             "Not Applicable",
+                      //             "Cable Change",
+                      //             "Phase down Rectification",
+                      //             "Phase down-Meter Replaced",
+                      //             "No Display-Meter Replaced",
+                      //             " Meter Burnt-Meter Replaced",
+                      //             " Meter Burnt-Meter(No Display) Replaced",
+                      //             " Meter Defective-Meter Replaced",
+                      //           ]
+                      //           .map(
+                      //             (status) => DropdownMenuItem(
+                      //               value: status,
+                      //               child: Text(status),
+                      //             ),
+                      //           )
+                      //           .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectedComplaint3 = value;
+                      //     });
+                      //   },
+                      // ),
                       const SizedBox(height: 12),
                     ],
                   ),
@@ -524,7 +691,7 @@ void _openSearchDialog() {
                       Row(
                         children: [
                           Expanded(
-                            child: DropdownButtonFormField<String>(
+                            child: DropdownButtonFormField2<String>(
                               value: selectedService,
                               decoration: const InputDecoration(
                                 labelStyle: TextStyle(color: Colors.red),
@@ -664,26 +831,45 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-                      DropdownButtonFormField<String>(
-                        value: selectsecurity,
-                        decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
-                          border: OutlineInputBorder(),
-                        ),
-                        items: ["SECURI"]
-                            .map(
-                              (div) => DropdownMenuItem(
-                                value: div,
-                                child: Text(div),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectsecurity = value;
-                          });
-                        },
-                      ),
+                      DropdownButtonFormField2<String>(
+  isExpanded: true,
+  value: selectsecurity,
+  decoration: InputDecoration(
+    border: OutlineInputBorder(),
+    
+    // labelText: 'Select Complaint 2',
+  ),
+  items: ["SECURI"]
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+  onChanged: (value) {
+    setState(() {
+     selectsecurity = value;
+    });
+  },),
+                      // DropdownButtonFormField<String>(
+                      //   value: selectsecurity,
+                      //   decoration: const InputDecoration(
+                      //     labelStyle: TextStyle(color: Colors.red),
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   items: ["SECURI"]
+                      //       .map(
+                      //         (div) => DropdownMenuItem(
+                      //           value: div,
+                      //           child: Text(div),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectsecurity = value;
+                      //     });
+                      //   },
+                      // ),
                       const SizedBox(height: 12),
 
                       Row(
@@ -739,25 +925,45 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-                      DropdownButtonFormField<String>(
-                        value: selectmetermakename,
-                        decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
-                          border: OutlineInputBorder(),
-                        ),
-                        items: ["SECURI"]
-                            .map(
-                              (div) => DropdownMenuItem(
-                                value: div,
-                                child: Text(div),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (value) {
+                      // DropdownButtonFormField<String>(
+                      //   value: selectmetermakename,
+                      //   decoration: const InputDecoration(
+                      //     labelStyle: TextStyle(color: Colors.red),
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   items: ["SECURI"]
+                      //       .map(
+                      //         (div) => DropdownMenuItem(
+                      //           value: div,
+                      //           child: Text(div),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectmetermakename = value;
+                      //     });
+                      //   },
+                      // ),
+                       DropdownButtonFormField2<String>(
+  isExpanded: true,
+value: selectmetermakename,
+  decoration: InputDecoration(
+    // hintText: "SELECT",
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+   items: ["SECURI"]
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+ onChanged:  (value) {
                           setState(() {
-                            selectmetermakename = value;
-                          });
-                        },
+                              selectmetermakename = value;
+    });
+  },
                       ),
                       const SizedBox(height: 12),
 
@@ -789,26 +995,47 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-                      DropdownButtonFormField<String>(
-                        value: selectmeterctratio,
-                        decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
-                          border: OutlineInputBorder(),
-                        ),
-                        items: ["100/5A", "125/5A", "200/5A"]
-                            .map(
-                              (div) => DropdownMenuItem(
-                                value: div,
-                                child: Text(div),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (value) {
+
+                                           DropdownButtonFormField2<String>(
+  isExpanded: true,
+ value: selectmeterctratio,
+  decoration: InputDecoration(
+    // hintText: "SELECT",
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+    items: ["100/5A", "125/5A", "200/5A"]
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+ onChanged: (value) {
                           setState(() {
-                            selectmeterctratio = value;
-                          });
-                        },
+                         selectmeterctratio = value;
+    });
+  },
                       ),
+                      // DropdownButtonFormField<String>(
+                      //   value: selectmeterctratio,
+                      //   decoration: const InputDecoration(
+                      //     labelStyle: TextStyle(color: Colors.red),
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   items: ["100/5A", "125/5A", "200/5A"]
+                      //       .map(
+                      //         (div) => DropdownMenuItem(
+                      //           value: div,
+                      //           child: Text(div),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectmeterctratio = value;
+                      //     });
+                      //   },
+                      // ),
                       const SizedBox(height: 12),
 
                       Row(
@@ -820,26 +1047,49 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-                      DropdownButtonFormField<String>(
-                        value: selectMeterWarranty,
-                        decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
-                          border: OutlineInputBorder(),
-                        ),
-                        items: ["WGP", "RGP", "BGP"]
-                            .map(
-                              (div) => DropdownMenuItem(
-                                value: div,
-                                child: Text(div),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (value) {
+                      
+                                           DropdownButtonFormField2<String>(
+  isExpanded: true,
+value: selectMeterWarranty,
+  decoration: InputDecoration(
+    // hintText: "SELECT",
+    border: OutlineInputBorder(),
+    // labelText: 'Select Complaint 2',
+  ),
+    items: ["WGP", "RGP", "BGP"]
+      .map((e) => DropdownMenuItem<String>(
+            value: e,
+            child: Text(e),
+          ))
+      .toList(),
+ onChanged:  
+                          (value) {
                           setState(() {
-                            selectMeterWarranty = value;
-                          });
-                        },
+                          selectMeterWarranty = value;
+                      //     });
+    });
+  },
                       ),
+                      // DropdownButtonFormField<String>(
+                      //   value: selectMeterWarranty,
+                      //   decoration: const InputDecoration(
+                      //     labelStyle: TextStyle(color: Colors.red),
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   items: ["WGP", "RGP", "BGP"]
+                      //       .map(
+                      //         (div) => DropdownMenuItem(
+                      //           value: div,
+                      //           child: Text(div),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectMeterWarranty = value;
+                      //     });
+                      //   },
+                      // ),
                       const SizedBox(height: 12),
 
                       Row(
