@@ -1,17 +1,18 @@
 import 'dart:core';
+// import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
 // import 'package:dropdown_search/dropdown_search.dart';
 
-class Screen1 extends StatefulWidget {
-  const Screen1({super.key});
+class CT_METERS extends StatefulWidget {
+  const CT_METERS({super.key});
 
   @override
-  State<Screen1> createState() => _Screen1State();
+  State<CT_METERS> createState() => _CT_METERSState();
 }
 
-class _Screen1State extends State<Screen1> {
+class _CT_METERSState extends State<CT_METERS> {
   String? selectedDivision;
   String? selectedSubDivision;
   String? selectedSection;
@@ -24,6 +25,8 @@ class _Screen1State extends State<Screen1> {
   String? selectmeterctratio;
   String? selectmetermakename;
   String? selectMeterWarranty;
+
+  final TextEditingController _controller = TextEditingController();
 
   //for dropdown code
   List<String> selectDivision = [
@@ -46,6 +49,17 @@ class _Screen1State extends State<Screen1> {
     "WADDEPALLY",
   ];
   //
+
+  final InputDecoration myTextFieldDecoration = const InputDecoration(
+    border: UnderlineInputBorder(),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.grey, width: 1),
+    ),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.blue, width: 2),
+    ),
+    contentPadding: EdgeInsets.symmetric(vertical: 4),
+  );
 
   Future<void> _pickDate() async {
     DateTime? picked = await showDatePicker(
@@ -592,7 +606,7 @@ class _Screen1State extends State<Screen1> {
                           });
                         },
                       ),
-                                            const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -667,7 +681,7 @@ class _Screen1State extends State<Screen1> {
                           });
                         },
                       ),
-                                            const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -717,7 +731,7 @@ class _Screen1State extends State<Screen1> {
                           });
                         },
                       ),
-                                            const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -748,7 +762,7 @@ class _Screen1State extends State<Screen1> {
                           });
                         },
                       ),
-                                            const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -782,7 +796,34 @@ class _Screen1State extends State<Screen1> {
                           Expanded(
                             // makes TextField take remaining space
                             child: TextField(
+                              controller: _controller,
                               textAlign: TextAlign.right,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter
+                                    .digitsOnly, // allow only digits
+                                LengthLimitingTextInputFormatter(
+                                  4,
+                                ), // max 4 digits (MMYY)
+                                TextInputFormatter.withFunction((
+                                  oldValue,
+                                  newValue,
+                                ) {
+                                  var text = newValue.text;
+                                  if (text.length >= 3) {
+                                    text =
+                                        text.substring(0, 2) +
+                                        '/' +
+                                        text.substring(2);
+                                  }
+                                  return TextEditingValue(
+                                    text: text,
+                                    selection: TextSelection.collapsed(
+                                      offset: text.length,
+                                    ),
+                                  );
+                                }),
+                              ],
                               decoration: InputDecoration(
                                 hintText: "MM/YY",
                                 border: OutlineInputBorder(),
@@ -791,6 +832,16 @@ class _Screen1State extends State<Screen1> {
                                   horizontal: 10,
                                 ),
                               ),
+
+                              // textAlign: TextAlign.right,
+                              // decoration: InputDecoration(
+                              //   hintText: "MM/YY",
+                              //   border: OutlineInputBorder(),
+                              //   contentPadding: EdgeInsets.symmetric(
+                              //     vertical: 8,
+                              //     horizontal: 10,
+                              //   ),
+                              // ),
                             ),
                           ),
                         ],
@@ -831,450 +882,234 @@ class _Screen1State extends State<Screen1> {
                           const Text("SOLAR METER"),
                         ],
                       ),
-                      if (!isChecked)
-                        ...[
-                          Row(
-                            children: [
-                              const Text("KWH"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
+                      if (!isChecked) ...[
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("KWH")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
 
-                          Row(
-                            children: [
-                              const Text("KVAH"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("KVAH")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
 
-                          Row(
-                            children: [
-                              const Text("MD"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("MD")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
 
-                          Row(
-                            children: [
-                              const Text("KWH ERROR %"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("KWH ERROR %")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
 
-                          Row(
-                            children: [
-                              const Text("METER SATISFACTORY"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2, // controls width ratio
-                                child: DropdownButtonFormField<String>(
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // only bottom border
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ),
-                                  ),
-                                  value: null, // initial value
-                                  onChanged: (String? newValue) {
-                                    // handle value change
-                                  },
-                                  items: const [
-                                    DropdownMenuItem(
-                                      value: "Yes",
-                                      child: Text("Yes"),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: "No",
-                                      child: Text("No"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ]
-                      else
-                        ...[
-                          Row(
-                            children: [
-                              const Text("IMPORT KWH"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: const Text("METER SATISFACTORY"),
+                            ),
+                            Expanded(
+                              flex: 2, // controls width ratio
+                              child: DropdownButtonFormField<String>(
+                                decoration: myTextFieldDecoration,
 
-                          Row(
-                            children: [
-                              const Text("EXPORT KWH"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
+                                value: null, // initial value
+                                onChanged: (String? newValue) {
+                                  // handle value change
+                                },
+                                items: const [
+                                  DropdownMenuItem(
+                                    value: "Yes",
+                                    child: Text("Yes"),
                                   ),
-                                ),
+                                  DropdownMenuItem(
+                                    value: "No",
+                                    child: Text("No"),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
+                      ] else ...[
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("IMPORT KWH")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
+                              ),
+                            ),
+                          ],
+                        ),
 
-                          Row(
-                            children: [
-                              const Text("IMPORT KVAH"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("EXPORT KWH")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
 
-                          Row(
-                            children: [
-                              const Text("EXPORT KVAH"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("IMPORT KVAH")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              const Text("IMPORT MD"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
 
-Row(
-                            children: [
-                              const Text("EXPORT MD"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("EXPORT KVAH")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
-
-Row(
-                            children: [
-                              const Text("KWH ERROR %"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2,
-                                child: TextField(
-                                  textAlign: TextAlign
-                                      .right, // Align text to the right
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // Only bottom border
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ), // bottom line color
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.blue,
-                                        width: 2,
-                                      ), // bottom line when focused
-                                    ),
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ), // control height
-                                  ),
-                                ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("IMPORT MD")),
+                            // const Spacer(),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
+                        ),
 
-
-                          Row(
-                            children: [
-                              const Text("METER SATISFACTORY"),
-                              const Spacer(),
-                              Expanded(
-                                flex: 2, // controls width ratio
-                                child: DropdownButtonFormField<String>(
-                                  decoration: const InputDecoration(
-                                    border:
-                                        UnderlineInputBorder(), // only bottom border
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: 4,
-                                    ),
-                                  ),
-                                  value: null, // initial value
-                                  onChanged: (String? newValue) {
-                                    // handle value change
-                                  },
-                                  items: const [
-                                    DropdownMenuItem(
-                                      value: "Yes",
-                                      child: Text("Yes"),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: "No",
-                                      child: Text("No"),
-                                    ),
-                                  ],
-                                ),
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("EXPORT MD")),
+                            // const Spacer(),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                          ],
+                        ),
+
+                        Row(
+                          children: [
+                            Expanded(flex: 2, child: const Text("KWH ERROR %")),
+                            Expanded(
+                              flex: 2,
+                              child: TextField(
+                                textAlign:
+                                    TextAlign.right, // Align text to the right
+                                keyboardType: TextInputType.number,
+                                decoration: myTextFieldDecoration,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: const Text("METER SATISFACTORY"),
+                            ),
+                            // const Spacer(),
+                            Expanded(
+                              flex: 2, // controls width ratio
+                              child: DropdownButtonFormField<String>(
+                                decoration: myTextFieldDecoration,
+
+                                value: null, // initial value
+                                onChanged: (String? newValue) {
+                                  // handle value change
+                                },
+                                items: const [
+                                  DropdownMenuItem(
+                                    value: "Yes",
+                                    child: Text("Yes"),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: "No",
+                                    child: Text("No"),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),
