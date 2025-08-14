@@ -1,4 +1,7 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
+// import 'package:dropdown_search/dropdown_search.dart';
 
 class Screen1 extends StatefulWidget {
   const Screen1({super.key});
@@ -10,7 +13,7 @@ class Screen1 extends StatefulWidget {
 class _Screen1State extends State<Screen1> {
   String? selectedDivision;
   String? selectedSubDivision;
-  String? selectedStatus;
+  String? selectedSection;
   DateTime? selectedDate;
 
   String? selectedComplaint1;
@@ -20,6 +23,18 @@ class _Screen1State extends State<Screen1> {
   String? selectmeterctratio;
   String? selectmetermakename;
   String? selectMeterWarranty;
+
+  //for dropdown code
+  List<String> selectDivision = ["SELECT","HANAMKONDA TOWN", "HANAMKONDA RURAL"];
+  List<String> selectSubDivision = ["SELECT","KAZIPET", "HANAMKONDA", "NAYEEMANAGAR"];
+  List<String> selectSection = ["SELECT",
+    "NIT",
+    "MADIKONDA",
+    "KAZIPET",
+    "KADIPIKONDA",
+    "WADDEPALLY",
+  ];
+  //
 
   Future<void> _pickDate() async {
     DateTime? picked = await showDatePicker(
@@ -36,6 +51,13 @@ class _Screen1State extends State<Screen1> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    selectedComplaint3 = "Not Applicable";
+    selectedComplaint2 = "Not Applicable";
+  }
+
   bool isChecked = false;
 
   @override
@@ -46,7 +68,7 @@ class _Screen1State extends State<Screen1> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 16, 156, 188),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
@@ -85,27 +107,30 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "SELECT DIVISION",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
+
                       DropdownButtonFormField<String>(
                         value: selectedDivision,
                         decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
                           border: OutlineInputBorder(),
                         ),
-                        items: ["A", "B", "C"]
+                        hint: const Text("SELECT"), // placeholder
+                        items: selectDivision
                             .map(
-                              (div) => DropdownMenuItem(
-                                value: div,
-                                child: Text(div),
+                              (item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(item),
                               ),
                             )
                             .toList(),
                         onChanged: (value) {
                           setState(() {
                             selectedDivision = value;
+                            selectedSubDivision = selectSubDivision[0]; // reset next
+                            selectedSection = null; // reset third
                           });
                         },
                       ),
@@ -117,29 +142,33 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "SELECT SUB-DIVISION",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
+
                       DropdownButtonFormField<String>(
                         value: selectedSubDivision,
                         decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
                           border: OutlineInputBorder(),
                         ),
-                        items: ["North", "South", "East"]
+                        // hint: const Text("Select"), // placeholder
+                        items: selectSubDivision
                             .map(
-                              (sub) => DropdownMenuItem(
-                                value: sub,
-                                child: Text(sub),
+                              (item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(item),
                               ),
                             )
                             .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedSubDivision = value;
-                          });
-                        },
+                        onChanged: selectedDivision == null
+                            ? null // disabled until division selected
+                            : (value) {
+                                setState(() {
+                                  selectedSubDivision = value;
+                                  selectedSection = selectSection[0]; // reset next
+                                });
+                              },
                       ),
                       const SizedBox(height: 12),
 
@@ -149,36 +178,41 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "SELECT SECTION",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
+
                       DropdownButtonFormField<String>(
-                        value: selectedStatus,
+                        value: selectedSection,
                         decoration: const InputDecoration(
-                          labelStyle: TextStyle(color: Colors.red),
                           border: OutlineInputBorder(),
                         ),
-                        items: ["Active", "Inactive"]
+                        // hint: const Text("Select"), // placeholder
+                        items: selectSection
                             .map(
-                              (status) => DropdownMenuItem(
-                                value: status,
-                                child: Text(status),
+                              (item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(item),
                               ),
                             )
                             .toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedStatus = value;
-                          });
-                        },
+                        onChanged: selectedSubDivision == null
+                            ? null // disabled until sub-division selected
+                            : (value) {
+                                setState(() {
+                                  selectedSection = value;
+                                });
+                              },
                       ),
+                      const SizedBox(height: 12),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           const Text(
                             "Date of Inspection",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -196,8 +230,8 @@ class _Screen1State extends State<Screen1> {
                           ),
                           child: Text(
                             selectedDate != null
-                                ? "${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}"
-                                : "Select Date",
+                                ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
+                                : "TAP HERE",
                             style: const TextStyle(fontSize: 14),
                           ),
                         ),
@@ -231,7 +265,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "NATURE OF COMPLAINT",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -271,8 +305,8 @@ class _Screen1State extends State<Screen1> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           const Text(
-                            "SNATURE OF COMPLAINT 2",
-                            style: TextStyle(fontSize: 16),
+                            "NATURE OF COMPLAINT 2",
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -314,7 +348,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "NATURE OF COMPLAINT 3",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -375,10 +409,11 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "SERVICE NO",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
+
                       Row(
                         children: [
                           Expanded(
@@ -424,6 +459,7 @@ class _Screen1State extends State<Screen1> {
                           ),
                         ],
                       ),
+
                       Divider(
                         color: Colors.grey.shade300, // light grey line
                         thickness: 1, // line thickness
@@ -519,7 +555,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "METER MAKE",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -548,7 +584,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "METER SERIAL NO",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -562,9 +598,6 @@ class _Screen1State extends State<Screen1> {
                         },
                       ),
 
-                      // Sub-Division Dropdown
-
-                      // Status Dropdown
                       const SizedBox(height: 12),
                     ],
                   ),
@@ -595,7 +628,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "METER MAKE",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -624,7 +657,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "METER SERIAL NO",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -643,7 +676,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "METER CT RATIO",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -672,7 +705,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "METER WARRANTY",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -701,7 +734,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "METER PO NO",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -720,7 +753,7 @@ class _Screen1State extends State<Screen1> {
                         children: [
                           const Text(
                             "PO MONTH YEAR(MM/YY)",
-                            style: TextStyle(fontSize: 16, color: Colors.red),
+                            style: TextStyle(fontSize: 12, color: Colors.red),
                           ),
                           const SizedBox(
                             width: 10,
@@ -966,13 +999,13 @@ class _Screen1State extends State<Screen1> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           const Text(
                             "REMARKS",
-                            style: TextStyle(fontSize: 16, color: Colors.red),
+                            style: TextStyle(fontSize: 12, color: Colors.red),
                           ),
                         ],
                       ),
@@ -995,7 +1028,22 @@ class _Screen1State extends State<Screen1> {
                   ),
                 ),
               ),
-              //remarks end here
+
+              const SizedBox(height: 20),
+
+              Container(
+                height: 60,
+                width: double.infinity,
+                color: Colors.red,
+
+                // decoration:BoxDecoration(
+                //   borderRadius: BorderRadius.circular(2),
+                // ),
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text("Submit", style: TextStyle(color: Colors.white)),
+                ),
+              ),
             ],
           ),
         ),
