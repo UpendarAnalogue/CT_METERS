@@ -1137,7 +1137,7 @@ class _CT_METERSState extends State<CT_METERS> {
 
                             Expanded(
                               flex: 2,
-                              child: DropdownButtonFormField<String>(
+                              child: DropdownButtonFormField2<String>(
                                 decoration: myTextFieldDecoration,
 
                                 value: null,
