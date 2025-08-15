@@ -22,12 +22,114 @@ class _CT_METERSState extends State<CT_METERS> {
   String? selectedComplaint1;
   String? selectedComplaint2;
   String? selectedComplaint3;
-  String? selectsecurity;
-  String? selectmeterctratio;
-  String? selectmetermakename;
+  String? selectedSecurity;
+  String? selectedMeterRatio;
+  String? selectedMeterMakeName;
   String? selectMeterWarranty;
+  String? meterSatisfaction;
 
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controllerPO = TextEditingController();
+  // ignore: non_constant_identifier_names
+  final TextEditingController _meter_serial_no = TextEditingController();
+  final TextEditingController _kwh = TextEditingController();
+
+  final TextEditingController _kvah = TextEditingController();
+  final TextEditingController _md = TextEditingController();
+  final TextEditingController _kwhError = TextEditingController();
+  final TextEditingController _importKWH = TextEditingController();
+  final TextEditingController _exportKWH = TextEditingController();
+  final TextEditingController _importKVAH = TextEditingController();
+  final TextEditingController _exportKVAH = TextEditingController();
+  final TextEditingController _importMD = TextEditingController();
+  final TextEditingController _exportMD = TextEditingController();
+  final TextEditingController _remarks = TextEditingController();
+  final TextEditingController _kwhErrorInSolar = TextEditingController();
+
+  void _showAlertDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Validation"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+bool isChecked=false;
+ 
+
+  void _checkField() {
+    if (selectedDivision == null || selectedDivision!.isEmpty) {
+      _showAlertDialog("Please Select your Division !");
+    } else if (selectedSubDivision == null || selectedSubDivision!.isEmpty) {
+      _showAlertDialog("Please Select your Sub Division !");
+    } else if (selectedSection == null || selectedSection!.isEmpty) {
+      _showAlertDialog("Please Select your Section !");
+    } 
+     else if (selectedDate == null) {
+      _showAlertDialog("Please Select Date of Inspection");
+    }
+    else if (selectedComplaint1 == null || selectedComplaint1!.isEmpty) {
+      _showAlertDialog("Please Select Complaint  !");
+    } else if (selectedComplaint2 == null || selectedComplaint2!.isEmpty) {
+      _showAlertDialog("Please Select Complaint!");
+    } else if (selectedComplaint3 == null || selectedComplaint3!.isEmpty) {
+      _showAlertDialog("Please Select Complaint !");
+    }
+    // else if (selectedService == null || selectedService!.isEmpty) {
+    //   _showAlertDialog("Please Select your Service !");
+    // } 
+    else if (selectedMeterMakeName == null ||
+        selectedMeterMakeName!.isEmpty) {
+      _showAlertDialog("Please Select Your Meter Make Name");
+    } else if (_meter_serial_no.text.trim().isEmpty) {
+      _showAlertDialog("Please enter Meter Serial NO.");
+    } else if (selectedMeterRatio == null || selectedMeterRatio!.isEmpty) {
+      _showAlertDialog("Please Select Meter Ratio");
+    } else if (selectMeterWarranty == null || selectMeterWarranty!.isEmpty) {
+      _showAlertDialog("Please Select Your Meter Warranty");
+    } else if (_controllerPO.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter Your PO");
+    } 
+    else if (!isChecked && _kwh.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter KWH");
+    } else if (!isChecked && _kvah.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter KVAH");
+    } else if (!isChecked &&  _md.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter MD");
+    } else if (!isChecked &&  _kwhError.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter KWH ERROR");
+    } else if (!isChecked &&  meterSatisfaction == null || meterSatisfaction!.isEmpty) {
+      _showAlertDialog("Please Check the METER SATISFACTION");
+    } 
+    
+    else if (isChecked &&  _importKWH.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter IMPORT KWH ");
+    } else if (isChecked &&  _exportKWH.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter EXPORT  KWH");
+    } else if (isChecked &&  _importKVAH.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter IMPORT KVAH");
+    } else if (isChecked &&  _exportKVAH.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter EXPORT  KAVH");
+    } else if (isChecked &&  _importMD.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter IMPORT  MD");
+    } else if (isChecked &&  _exportMD.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter EXPORT  MD");
+    } else if (isChecked &&  _kwhErrorInSolar.text.trim().isEmpty) {
+      _showAlertDialog("Please Enter KWH ERROR IN SOLAR");
+    } else if (isChecked &&  meterSatisfaction == null || meterSatisfaction!.isEmpty) {
+      _showAlertDialog("Please Check the METER SATISFACTION");
+    } else if (_remarks.text.trim().isEmpty) {
+      _showAlertDialog("Please fill the REMARKS");
+    }  else {
+      _showAlertDialog("All Fields is filled ✅");
+    }
+  }
 
   //for dropdown code
   List<String> selectDivision = [
@@ -77,6 +179,8 @@ class _CT_METERSState extends State<CT_METERS> {
     }
   }
 
+ 
+
   @override
   void initState() {
     super.initState();
@@ -84,8 +188,7 @@ class _CT_METERSState extends State<CT_METERS> {
     selectedComplaint2 = "Not Applicable";
   }
 
-  bool isChecked = false;
-
+ 
   List<String> allData = [
     "Alpha",
     "Beta",
@@ -177,9 +280,9 @@ class _CT_METERSState extends State<CT_METERS> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            Text('#PRT20250805003162', style: TextStyle(fontSize: 18)),
+            Text('CT METERS', style: TextStyle(fontSize: 18)),
             Text(
-              '11KV BREAKER',
+              'COMPLAINT',
               style: TextStyle(fontSize: 14, color: Colors.white70),
             ),
           ],
@@ -236,8 +339,8 @@ class _CT_METERSState extends State<CT_METERS> {
                         onChanged: (value) {
                           setState(() {
                             selectedDivision = value;
-                            selectedSubDivision =
-                                selectSubDivision[0]; // reset next
+                            selectedSubDivision = null;
+                            //selectSubDivision[0]; // reset next
                             selectedSection = null; // reset third
                           });
                         },
@@ -257,7 +360,7 @@ class _CT_METERSState extends State<CT_METERS> {
                         isExpanded: true,
                         value: selectedSubDivision,
                         decoration: InputDecoration(
-                          // hintText: "SELECT",
+                          hintText: "SELECT",
                           border: OutlineInputBorder(),
                           // labelText: 'Select Complaint 2',
                         ),
@@ -274,7 +377,8 @@ class _CT_METERSState extends State<CT_METERS> {
                             : (value) {
                                 setState(() {
                                   selectedSubDivision = value;
-                                  selectedSection = selectSection[0];
+                                  selectedSection = null;
+                                  // selectedSection = selectSection[0];
                                 });
                               },
                       ),
@@ -296,7 +400,7 @@ class _CT_METERSState extends State<CT_METERS> {
                         isExpanded: true,
                         value: selectedSection,
                         decoration: InputDecoration(
-                          // hintText: "SELECT",
+                          hintText: "SELECT",
                           border: OutlineInputBorder(),
                           // labelText: 'Select Complaint 2',
                         ),
@@ -653,7 +757,7 @@ class _CT_METERSState extends State<CT_METERS> {
                       ),
                       DropdownButtonFormField2<String>(
                         isExpanded: true,
-                        value: selectsecurity,
+                        value: selectedSecurity,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
 
@@ -669,7 +773,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             .toList(),
                         onChanged: (value) {
                           setState(() {
-                            selectsecurity = value;
+                            selectedSecurity = value;
                           });
                         },
                       ),
@@ -731,7 +835,7 @@ class _CT_METERSState extends State<CT_METERS> {
 
                       DropdownButtonFormField2<String>(
                         isExpanded: true,
-                        value: selectmetermakename,
+                        value: selectedMeterMakeName,
                         decoration: InputDecoration(
                           // hintText: "SELECT",
                           border: OutlineInputBorder(),
@@ -747,7 +851,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             .toList(),
                         onChanged: (value) {
                           setState(() {
-                            selectmetermakename = value;
+                            selectedMeterMakeName = value;
                           });
                         },
                       ),
@@ -763,6 +867,7 @@ class _CT_METERSState extends State<CT_METERS> {
                         ],
                       ),
                       TextField(
+                        controller: _meter_serial_no,
                         decoration: InputDecoration(
                           // labelText: "Enter Meter Make",
                           border: OutlineInputBorder(),
@@ -784,7 +889,7 @@ class _CT_METERSState extends State<CT_METERS> {
 
                       DropdownButtonFormField2<String>(
                         isExpanded: true,
-                        value: selectmeterctratio,
+                        value: selectedMeterRatio,
                         decoration: InputDecoration(
                           // hintText: "SELECT",
                           border: OutlineInputBorder(),
@@ -800,7 +905,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             .toList(),
                         onChanged: (value) {
                           setState(() {
-                            selectmeterctratio = value;
+                            selectedMeterRatio = value;
                           });
                         },
                       ),
@@ -871,33 +976,66 @@ class _CT_METERSState extends State<CT_METERS> {
                           const SizedBox(width: 10),
                           Expanded(
                             child: TextField(
-                              controller: _controller,
+                              controller: _controllerPO,
                               textAlign: TextAlign.right,
                               keyboardType: TextInputType.number,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(4),
+                                LengthLimitingTextInputFormatter(
+                                  6,
+                                ), // MMYYYY (digits only, no slash)
                                 TextInputFormatter.withFunction((
                                   oldValue,
                                   newValue,
                                 ) {
-                                  var text = newValue.text;
-                                  if (text.length >= 3) {
-                                    text =
-                                        text.substring(0, 2) +
-                                        '/' +
-                                        text.substring(2);
+                                  String digits = newValue.text.replaceAll(
+                                    '/',
+                                    '',
+                                  );
+
+                                  // Auto-prepend '0' if month is single digit and > 1
+                                  if (digits.length == 1 &&
+                                      int.tryParse(digits) != null) {
+                                    int m = int.parse(digits);
+                                    if (m > 1) {
+                                      digits = '0' + digits; // e.g., 3 → 03
+                                    }
                                   }
+
+                                  // Validate month
+                                  if (digits.length >= 2) {
+                                    int month =
+                                        int.tryParse(digits.substring(0, 2)) ??
+                                        0;
+                                    if (month < 1 || month > 12) {
+                                      return oldValue; // Reject invalid month
+                                    }
+                                  }
+
+                                  // Limit to 6 digits (MMYYYY)
+                                  if (digits.length > 6) {
+                                    digits = digits.substring(0, 6);
+                                  }
+
+                                  // Insert slash after month
+                                  String formatted = digits;
+                                  if (digits.length > 2) {
+                                    formatted =
+                                        digits.substring(0, 2) +
+                                        '/' +
+                                        digits.substring(2);
+                                  }
+
                                   return TextEditingValue(
-                                    text: text,
+                                    text: formatted,
                                     selection: TextSelection.collapsed(
-                                      offset: text.length,
+                                      offset: formatted.length,
                                     ),
                                   );
                                 }),
                               ],
                               decoration: InputDecoration(
-                                hintText: "MM/YY",
+                                hintText: "MM/YYYY",
                                 border: OutlineInputBorder(),
                                 contentPadding: EdgeInsets.symmetric(
                                   vertical: 8,
@@ -951,6 +1089,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _kwh,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -965,6 +1104,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _kvah,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -979,6 +1119,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _md,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -993,6 +1134,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _kwhError,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -1009,22 +1151,23 @@ class _CT_METERSState extends State<CT_METERS> {
                             ),
                             Expanded(
                               flex: 2,
-                              child: DropdownButtonFormField2<String>(
-                                decoration: myTextFieldDecoration,
-
-                                value: null,
-                                onChanged: (String? newValue) {},
-                                items: const [
-                                  DropdownMenuItem(
-                                    value: "Yes",
-                                    child: Text("Yes"),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: "No",
-                                    child: Text("No"),
-                                  ),
-                                ],
-                              ),
+                              child: 
+                             DropdownButtonFormField2<String>(
+  decoration: myTextFieldDecoration,
+  value: meterSatisfaction,
+  hint: const Text("Select"),
+  items: ["Yes", "No"].map(
+    (e) => DropdownMenuItem<String>(
+      value: e,
+      child: Text(e),
+    ),
+  ).toList(),
+  onChanged: (value) {
+    setState(() {
+      meterSatisfaction = value;
+    });
+  },
+)
                             ),
                           ],
                         ),
@@ -1035,6 +1178,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _importKWH,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -1049,6 +1193,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _exportKWH,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -1063,6 +1208,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _importKVAH,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -1077,6 +1223,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _exportKVAH,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -1091,6 +1238,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _importMD,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -1106,6 +1254,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _exportMD,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -1120,6 +1269,7 @@ class _CT_METERSState extends State<CT_METERS> {
                             Expanded(
                               flex: 2,
                               child: TextField(
+                                controller: _kwhErrorInSolar,
                                 textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
@@ -1137,22 +1287,22 @@ class _CT_METERSState extends State<CT_METERS> {
 
                             Expanded(
                               flex: 2,
-                              child: DropdownButtonFormField2<String>(
-                                decoration: myTextFieldDecoration,
-
-                                value: null,
-                                onChanged: (String? newValue) {},
-                                items: const [
-                                  DropdownMenuItem(
-                                    value: "Yes",
-                                    child: Text("Yes"),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: "No",
-                                    child: Text("No"),
-                                  ),
-                                ],
-                              ),
+                              child:     DropdownButtonFormField2<String>(
+  decoration: myTextFieldDecoration,
+  value: meterSatisfaction,
+  hint: const Text("Select"),
+  items: ["Yes", "No"].map(
+    (e) => DropdownMenuItem<String>(
+      value: e,
+      child: Text(e),
+    ),
+  ).toList(),
+  onChanged: (value) {
+    setState(() {
+      meterSatisfaction = value;
+    });
+  },
+)
                             ),
                           ],
                         ),
@@ -1189,6 +1339,7 @@ class _CT_METERSState extends State<CT_METERS> {
                         ],
                       ),
                       TextField(
+                        controller: _remarks,
                         minLines: 5,
                         maxLines: null,
                         keyboardType: TextInputType.multiline,
@@ -1226,7 +1377,7 @@ class _CT_METERSState extends State<CT_METERS> {
                       ), // Same radius here for clipping
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: _checkField,
                   child: const Text("Submit"),
                 ),
               ),
