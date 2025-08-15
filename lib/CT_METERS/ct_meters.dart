@@ -1,11 +1,7 @@
 import 'dart:core';
-// import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
-// ignore: depend_on_referenced_packages
-// import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-// import 'package:dropdown_search/dropdown_search.dart';
 
 // ignore: camel_case_types
 class CT_METERS extends StatefulWidget {
@@ -90,7 +86,6 @@ class _CT_METERSState extends State<CT_METERS> {
 
   bool isChecked = false;
 
-
   List<String> allData = [
     "Alpha",
     "Beta",
@@ -103,70 +98,72 @@ class _CT_METERSState extends State<CT_METERS> {
     "Kappa",
   ]; // Sample data
   List<String> filteredData = [];
-void _openSearchDialog() {
-  filteredData = List.from(allData);
+  void _openSearchDialog() {
+    filteredData = List.from(allData);
 
-  showDialog(
-    context: context,
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (context, setDialogState) {
-          return AlertDialog(
-            title: const Text("Search Service Details"),
-            content: SizedBox(
-              width: double.maxFinite,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    decoration: const InputDecoration(
-                      hintText: "Search...",
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                    onChanged: (value) {
-                      setDialogState(() {
-                        filteredData = allData
-                            .where((item) => item
-                                .toLowerCase()
-                                .contains(value.toLowerCase()))
-                            .toList();
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: filteredData.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(filteredData[index]),
-                          onTap: () {
-                            // Update parent dropdown
-                            setState(() {
-                              selectedService = filteredData[index];
-                            });
-                            Navigator.pop(context);
-                          },
-                        );
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Text("Search Service Details"),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      decoration: const InputDecoration(
+                        hintText: "Search...",
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                      onChanged: (value) {
+                        setDialogState(() {
+                          filteredData = allData
+                              .where(
+                                (item) => item.toLowerCase().contains(
+                                  value.toLowerCase(),
+                                ),
+                              )
+                              .toList();
+                        });
                       },
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        itemCount: filteredData.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(filteredData[index]),
+                            onTap: () {
+                              // Update parent dropdown
+                              setState(() {
+                                selectedService = filteredData[index];
+                              });
+                              Navigator.pop(context);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Close"),
-              )
-            ],
-          );
-        },
-      );
-    },
-  );
-}
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Close"),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,51 +217,30 @@ void _openSearchDialog() {
                         ],
                       ),
 
-                      // DropdownButtonFormField<String>(
-                      //   value: selectedDivision,
-                      //   decoration: const InputDecoration(
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   hint: const Text("SELECT"), // placeholder
-                      //   items: selectDivision
-                      //       .map(
-                      //         (item) => DropdownMenuItem(
-                      //           value: item,
-                      //           child: Text(item),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectedDivision = value;
-                      //       selectedSubDivision =
-                      //           selectSubDivision[0]; // reset next
-                      //       selectedSection = null; // reset third
-                      //     });
-                      //   },
-                      // ),
                       DropdownButtonFormField2<String>(
-  isExpanded: true,
-   value: selectedDivision,
-  decoration: InputDecoration(
-    hintText: "SELECT",
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-  items: selectDivision
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
-  onChanged: (value) {
-    setState(() {
-          selectedDivision = value;
-                    selectedSubDivision =
-                            selectSubDivision[0]; // reset next
-                         selectedSection = null; // reset third
-    });
-  },
+                        isExpanded: true,
+                        value: selectedDivision,
+                        decoration: InputDecoration(
+                          hintText: "SELECT",
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items: selectDivision
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedDivision = value;
+                            selectedSubDivision =
+                                selectSubDivision[0]; // reset next
+                            selectedSection = null; // reset third
+                          });
+                        },
                       ),
                       const SizedBox(height: 12),
 
@@ -277,51 +253,32 @@ void _openSearchDialog() {
                           ),
                         ],
                       ),
-DropdownButtonFormField2<String>(
-  isExpanded: true,
-  value: selectedSubDivision,
-  decoration: InputDecoration(
-    // hintText: "SELECT",
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-   items: selectSubDivision
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
-  onChanged: (value) {
-    setState(() {
-           selectedSubDivision = value;
-              selectedSection = selectSection[0]; 
-    });
-  },
+                      DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value: selectedSubDivision,
+                        decoration: InputDecoration(
+                          // hintText: "SELECT",
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items: selectSubDivision
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: selectedDivision == null
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  selectedSubDivision = value;
+                                  selectedSection = selectSection[0];
+                                });
+                              },
                       ),
-                      // DropdownButtonFormField<String>(
-                      //   value: selectedSubDivision,
-                      //   decoration: const InputDecoration(
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   // hint: const Text("Select"), // placeholder
-                      //   items: selectSubDivision
-                      //       .map(
-                      //         (item) => DropdownMenuItem(
-                      //           value: item,
-                      //           child: Text(item),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: selectedDivision == null
-                      //       ? null // disabled until division selected
-                      //       : (value) {
-                      //           setState(() {
-                      //             selectedSubDivision = value;
-                      //             selectedSection =
-                      //                 selectSection[0]; // reset next
-                      //           });
-                      //         },
-                      // ),
+
                       const SizedBox(height: 12),
 
                       // Status Dropdown
@@ -335,53 +292,31 @@ DropdownButtonFormField2<String>(
                         ],
                       ),
 
-                      
                       DropdownButtonFormField2<String>(
-  isExpanded: true,
-   value: selectedSection,
-  decoration: InputDecoration(
-    // hintText: "SELECT",
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-   items: selectSection
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
- onChanged: selectedSubDivision == null
-                            ? null // disabled until sub-division selected
-                          : (value) {
-                          setState(() {
-                             selectedSection = value;
-    });
-  },
+                        isExpanded: true,
+                        value: selectedSection,
+                        decoration: InputDecoration(
+                          // hintText: "SELECT",
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items: selectSection
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: selectedSubDivision == null
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  selectedSection = value;
+                                });
+                              },
                       ),
-                      
 
-                      // DropdownButtonFormField<String>(
-                      //   value: selectedSection,
-                      //   decoration: const InputDecoration(
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   // hint: const Text("Select"), // placeholder
-                      //   items: selectSection
-                      //       .map(
-                      //         (item) => DropdownMenuItem(
-                      //           value: item,
-                      //           child: Text(item),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: selectedSubDivision == null
-                      //       ? null // disabled until sub-division selected
-                      //       : (value) {
-                      //           setState(() {
-                      //             selectedSection = value;
-                      //           });
-                      //         },
-                      // ),
                       const SizedBox(height: 12),
 
                       Row(
@@ -448,64 +383,37 @@ DropdownButtonFormField2<String>(
                       ),
 
                       DropdownButtonFormField2<String>(
-  isExpanded: true,
-   value: selectedComplaint1,
-  decoration: InputDecoration(
-    hintText: "Select",
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-  items: [
-    
-    "Cable Change",
-    "Phase down Rectification",
-    "Phase down-Meter Replaced",
-    "No Display-Meter Replaced",
-    "Meter Burnt-Meter Replaced",
-    "Meter Burnt-Meter(No Display) Replaced",
-    "Meter Defective-Meter Replaced",
-  ]
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
-  onChanged: (value) {
-    setState(() {
-      selectedComplaint1 = value;
-    });
-  },
+                        isExpanded: true,
+                        value: selectedComplaint1,
+                        decoration: InputDecoration(
+                          hintText: "Select",
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items:
+                            [
+                                  "Cable Change",
+                                  "Phase down Rectification",
+                                  "Phase down-Meter Replaced",
+                                  "No Display-Meter Replaced",
+                                  "Meter Burnt-Meter Replaced",
+                                  "Meter Burnt-Meter(No Display) Replaced",
+                                  "Meter Defective-Meter Replaced",
+                                ]
+                                .map(
+                                  (e) => DropdownMenuItem<String>(
+                                    value: e,
+                                    child: Text(e),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedComplaint1 = value;
+                          });
+                        },
                       ),
-                      // DropdownButtonFormField<String>(
-                      //   value: selectedComplaint1,
-                        
-                      //   decoration: const InputDecoration(
-                      //     hintText: "Select",
-                      //     labelStyle: TextStyle(color: Colors.red),
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   items:
-                      //       [
-                      //             "Cable Change",
-                      //             "Phase down Rectification",
-                      //             "Phase down-Meter Replaced",
-                      //             "No Display-Meter Replaced",
-                      //             " Meter Burnt-Meter Replaced",
-                      //             " Meter Burnt-Meter(No Display) Replaced",
-                      //             " Meter Defective-Meter Replaced",
-                      //           ]
-                      //           .map(
-                      //             (div) => DropdownMenuItem(
-                      //               value: div,
-                      //               child: Text(div),
-                      //             ),
-                      //           )
-                      //           .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectedComplaint1 = value;
-                      //     });
-                      //   },
+
                       // ),
                       const SizedBox(height: 12),
 
@@ -520,71 +428,39 @@ DropdownButtonFormField2<String>(
                         ],
                       ),
 
+                      DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value: selectedComplaint2,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items:
+                            [
+                                  "Not Applicable",
+                                  "Cable Change",
+                                  "Phase down Rectification",
+                                  "Phase down-Meter Replaced",
+                                  "No Display-Meter Replaced",
+                                  "Meter Burnt-Meter Replaced",
+                                  "Meter Burnt-Meter(No Display) Replaced",
+                                  "Meter Defective-Meter Replaced",
+                                ]
+                                .map(
+                                  (e) => DropdownMenuItem<String>(
+                                    value: e,
+                                    child: Text(e),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedComplaint2 = value;
+                          });
+                        },
+                      ),
 
-DropdownButtonFormField2<String>(
-  isExpanded: true,
-  value: selectedComplaint2,
-  decoration: InputDecoration(
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-  items: [
-    "Not Applicable",
-    "Cable Change",
-    "Phase down Rectification",
-    "Phase down-Meter Replaced",
-    "No Display-Meter Replaced",
-    "Meter Burnt-Meter Replaced",
-    "Meter Burnt-Meter(No Display) Replaced",
-    "Meter Defective-Meter Replaced",
-  ]
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
-  onChanged: (value) {
-    setState(() {
-       selectedComplaint2 = value;
-    });
-  },
-  // dropdownMaxHeight: 200,
-// dropdownDecoration: BoxDecoration(
-    //borderRadius: BorderRadius.circular(8),
-  ),
-//),
-
-
-                      // DropdownButtonFormField<String>(
-                      //   value: selectedComplaint2,
-                      //   decoration: const InputDecoration(
-                      //     labelStyle: TextStyle(color: Colors.red),
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   items:
-                      //       [
-                      //             "Not Applicable",
-                      //             "Cable Change",
-                      //             "Phase down Rectification",
-                      //             "Phase down-Meter Replaced",
-                      //             "No Display-Meter Replaced",
-                      //             " Meter Burnt-Meter Replaced",
-                      //             " Meter Burnt-Meter(No Display) Replaced",
-                      //             " Meter Defective-Meter Replaced",
-                      //           ]
-                      //           .map(
-                      //             (sub) => DropdownMenuItem(
-                      //               value: sub,
-                      //               child: Text(sub),
-                      //             ),
-                      //           )
-                      //           .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectedComplaint2 = value;
-                      //     });
-                      //   },
-                      // ),
+                      //),
                       const SizedBox(height: 12),
 
                       // Status Dropdown
@@ -599,63 +475,37 @@ DropdownButtonFormField2<String>(
                       ),
 
                       DropdownButtonFormField2<String>(
-  isExpanded: true,
-  value: selectedComplaint3,
-  decoration: InputDecoration(
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-  items: [
-    "Not Applicable",
-    "Cable Change",
-    "Phase down Rectification",
-    "Phase down-Meter Replaced",
-    "No Display-Meter Replaced",
-    "Meter Burnt-Meter Replaced",
-    "Meter Burnt-Meter(No Display) Replaced",
-    "Meter Defective-Meter Replaced",
-  ]
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
-  onChanged: (value) {
-    setState(() {
-      selectedComplaint3 = value;
-    });
-  },),
+                        isExpanded: true,
+                        value: selectedComplaint3,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items:
+                            [
+                                  "Not Applicable",
+                                  "Cable Change",
+                                  "Phase down Rectification",
+                                  "Phase down-Meter Replaced",
+                                  "No Display-Meter Replaced",
+                                  "Meter Burnt-Meter Replaced",
+                                  "Meter Burnt-Meter(No Display) Replaced",
+                                  "Meter Defective-Meter Replaced",
+                                ]
+                                .map(
+                                  (e) => DropdownMenuItem<String>(
+                                    value: e,
+                                    child: Text(e),
+                                  ),
+                                )
+                                .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedComplaint3 = value;
+                          });
+                        },
+                      ),
 
-                      // DropdownButtonFormField<String>(
-                      //   value: selectedComplaint3,
-                      //   decoration: const InputDecoration(
-                      //     labelStyle: TextStyle(color: Colors.red),
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   items:
-                      //       [
-                      //             "Not Applicable",
-                      //             "Cable Change",
-                      //             "Phase down Rectification",
-                      //             "Phase down-Meter Replaced",
-                      //             "No Display-Meter Replaced",
-                      //             " Meter Burnt-Meter Replaced",
-                      //             " Meter Burnt-Meter(No Display) Replaced",
-                      //             " Meter Defective-Meter Replaced",
-                      //           ]
-                      //           .map(
-                      //             (status) => DropdownMenuItem(
-                      //               value: status,
-                      //               child: Text(status),
-                      //             ),
-                      //           )
-                      //           .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectedComplaint3 = value;
-                      //     });
-                      //   },
-                      // ),
                       const SizedBox(height: 12),
                     ],
                   ),
@@ -697,7 +547,7 @@ DropdownButtonFormField2<String>(
                                 labelStyle: TextStyle(color: Colors.red),
                                 border: OutlineInputBorder(),
                               ),
-                              items:allData
+                              items: allData
                                   .map(
                                     (status) => DropdownMenuItem(
                                       value: status,
@@ -718,11 +568,11 @@ DropdownButtonFormField2<String>(
                             height: 48,
                             width: 48,
                             decoration: BoxDecoration(
-                              color: Colors.grey, // Icon background color
+                              color: Colors.grey,
                               shape: BoxShape.rectangle,
                             ),
                             child: IconButton(
-                              onPressed:_openSearchDialog,
+                              onPressed: _openSearchDialog,
                               icon: const Icon(
                                 Icons.search,
                                 color: Colors.white,
@@ -732,22 +582,16 @@ DropdownButtonFormField2<String>(
                         ],
                       ),
 
-                      Divider(
-                        color: Colors.grey.shade300, // light grey line
-                        thickness: 1, // line thickness
-                      ),
+                      Divider(color: Colors.grey.shade300, thickness: 1),
 
                       Row(
                         children: [
                           Text("SC.NO/USCNO"),
-                          Spacer(), // takes up all available space
+                          Spacer(),
                           Text("22 22 129371/15855182"),
                         ],
                       ),
-                      Divider(
-                        color: Colors.grey.shade300, // light grey line
-                        thickness: 1, // line thickness
-                      ),
+                      Divider(color: Colors.grey.shade300, thickness: 1),
                       Row(
                         children: [
                           Text("NAME"),
@@ -757,47 +601,23 @@ DropdownButtonFormField2<String>(
                                 CrossAxisAlignment.end, // align right
                             children: [
                               Text("OWNERS WELFARE ASSOCIATION"),
-                              Text(
-                                "AMI",
-                                //style: TextStyle(fontSize: 12, color: Colors.grey), // smaller subline
-                              ),
+                              Text("AMI"),
                             ],
                           ),
                         ],
                       ),
-                      Divider(
-                        color: Colors.grey.shade300, // light grey line
-                        thickness: 1, // line thickness
-                      ),
-                      Row(
-                        children: [
-                          Text("CAT/MF"),
-                          Spacer(), // takes up all available space
-                          Text("1/1.0"),
-                        ],
-                      ),
-                      Divider(
-                        color: Colors.grey.shade300, // light grey line
-                        thickness: 1, // line thickness
-                      ),
+                      Divider(color: Colors.grey.shade300, thickness: 1),
+                      Row(children: [Text("CAT/MF"), Spacer(), Text("1/1.0")]),
+                      Divider(color: Colors.grey.shade300, thickness: 1),
                       Row(
                         children: [
                           Text("DISTRIBUTION"),
-                          Spacer(), // takes up all available space
+                          Spacer(),
                           Text("12221-NAGENDRA NAGAR"),
                         ],
                       ),
-                      Divider(
-                        color: Colors.grey.shade300, // light grey line
-                        thickness: 1, // line thickness
-                      ),
-                      Row(
-                        children: [
-                          Text("CMD"),
-                          Spacer(), // takes up all available space
-                          Text("10.0"),
-                        ],
-                      ),
+                      Divider(color: Colors.grey.shade300, thickness: 1),
+                      Row(children: [Text("CMD"), Spacer(), Text("10.0")]),
                     ],
                   ),
                 ),
@@ -832,44 +652,28 @@ DropdownButtonFormField2<String>(
                         ],
                       ),
                       DropdownButtonFormField2<String>(
-  isExpanded: true,
-  value: selectsecurity,
-  decoration: InputDecoration(
-    border: OutlineInputBorder(),
-    
-    // labelText: 'Select Complaint 2',
-  ),
-  items: ["SECURI"]
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
-  onChanged: (value) {
-    setState(() {
-     selectsecurity = value;
-    });
-  },),
-                      // DropdownButtonFormField<String>(
-                      //   value: selectsecurity,
-                      //   decoration: const InputDecoration(
-                      //     labelStyle: TextStyle(color: Colors.red),
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   items: ["SECURI"]
-                      //       .map(
-                      //         (div) => DropdownMenuItem(
-                      //           value: div,
-                      //           child: Text(div),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectsecurity = value;
-                      //     });
-                      //   },
-                      // ),
+                        isExpanded: true,
+                        value: selectsecurity,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items: ["SECURI"]
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectsecurity = value;
+                          });
+                        },
+                      ),
+
                       const SizedBox(height: 12),
 
                       Row(
@@ -897,7 +701,6 @@ DropdownButtonFormField2<String>(
                 ),
               ),
 
-              //fifth card
               Card(
                 color: Colors.white,
 
@@ -925,45 +728,28 @@ DropdownButtonFormField2<String>(
                           ),
                         ],
                       ),
-                      // DropdownButtonFormField<String>(
-                      //   value: selectmetermakename,
-                      //   decoration: const InputDecoration(
-                      //     labelStyle: TextStyle(color: Colors.red),
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   items: ["SECURI"]
-                      //       .map(
-                      //         (div) => DropdownMenuItem(
-                      //           value: div,
-                      //           child: Text(div),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectmetermakename = value;
-                      //     });
-                      //   },
-                      // ),
-                       DropdownButtonFormField2<String>(
-  isExpanded: true,
-value: selectmetermakename,
-  decoration: InputDecoration(
-    // hintText: "SELECT",
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-   items: ["SECURI"]
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
- onChanged:  (value) {
+
+                      DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value: selectmetermakename,
+                        decoration: InputDecoration(
+                          // hintText: "SELECT",
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items: ["SECURI"]
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
                           setState(() {
-                              selectmetermakename = value;
-    });
-  },
+                            selectmetermakename = value;
+                          });
+                        },
                       ),
                       const SizedBox(height: 12),
 
@@ -996,46 +782,29 @@ value: selectmetermakename,
                         ],
                       ),
 
-                                           DropdownButtonFormField2<String>(
-  isExpanded: true,
- value: selectmeterctratio,
-  decoration: InputDecoration(
-    // hintText: "SELECT",
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-    items: ["100/5A", "125/5A", "200/5A"]
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
- onChanged: (value) {
+                      DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value: selectmeterctratio,
+                        decoration: InputDecoration(
+                          // hintText: "SELECT",
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items: ["100/5A", "125/5A", "200/5A"]
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
                           setState(() {
-                         selectmeterctratio = value;
-    });
-  },
+                            selectmeterctratio = value;
+                          });
+                        },
                       ),
-                      // DropdownButtonFormField<String>(
-                      //   value: selectmeterctratio,
-                      //   decoration: const InputDecoration(
-                      //     labelStyle: TextStyle(color: Colors.red),
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   items: ["100/5A", "125/5A", "200/5A"]
-                      //       .map(
-                      //         (div) => DropdownMenuItem(
-                      //           value: div,
-                      //           child: Text(div),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectmeterctratio = value;
-                      //     });
-                      //   },
-                      // ),
+
                       const SizedBox(height: 12),
 
                       Row(
@@ -1047,49 +816,31 @@ value: selectmetermakename,
                           ),
                         ],
                       ),
-                      
-                                           DropdownButtonFormField2<String>(
-  isExpanded: true,
-value: selectMeterWarranty,
-  decoration: InputDecoration(
-    // hintText: "SELECT",
-    border: OutlineInputBorder(),
-    // labelText: 'Select Complaint 2',
-  ),
-    items: ["WGP", "RGP", "BGP"]
-      .map((e) => DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList(),
- onChanged:  
-                          (value) {
+
+                      DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        value: selectMeterWarranty,
+                        decoration: InputDecoration(
+                          // hintText: "SELECT",
+                          border: OutlineInputBorder(),
+                          // labelText: 'Select Complaint 2',
+                        ),
+                        items: ["WGP", "RGP", "BGP"]
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
                           setState(() {
-                          selectMeterWarranty = value;
-                      //     });
-    });
-  },
+                            selectMeterWarranty = value;
+                            //     });
+                          });
+                        },
                       ),
-                      // DropdownButtonFormField<String>(
-                      //   value: selectMeterWarranty,
-                      //   decoration: const InputDecoration(
-                      //     labelStyle: TextStyle(color: Colors.red),
-                      //     border: OutlineInputBorder(),
-                      //   ),
-                      //   items: ["WGP", "RGP", "BGP"]
-                      //       .map(
-                      //         (div) => DropdownMenuItem(
-                      //           value: div,
-                      //           child: Text(div),
-                      //         ),
-                      //       )
-                      //       .toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       selectMeterWarranty = value;
-                      //     });
-                      //   },
-                      // ),
+
                       const SizedBox(height: 12),
 
                       Row(
@@ -1103,7 +854,6 @@ value: selectMeterWarranty,
                       ),
                       TextField(
                         decoration: InputDecoration(
-                          // labelText: "Enter Meter Make",
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (value) {
@@ -1118,21 +868,15 @@ value: selectMeterWarranty,
                             "PO MONTH YEAR(MM/YY)",
                             style: TextStyle(fontSize: 12, color: Colors.red),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ), // space between text and TextField
+                          const SizedBox(width: 10),
                           Expanded(
-                            // makes TextField take remaining space
                             child: TextField(
                               controller: _controller,
                               textAlign: TextAlign.right,
                               keyboardType: TextInputType.number,
                               inputFormatters: [
-                                FilteringTextInputFormatter
-                                    .digitsOnly, // allow only digits
-                                LengthLimitingTextInputFormatter(
-                                  4,
-                                ), // max 4 digits (MMYY)
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(4),
                                 TextInputFormatter.withFunction((
                                   oldValue,
                                   newValue,
@@ -1207,8 +951,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1222,8 +965,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1237,8 +979,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1252,8 +993,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1268,14 +1008,12 @@ value: selectMeterWarranty,
                               child: const Text("METER SATISFACTORY"),
                             ),
                             Expanded(
-                              flex: 2, // controls width ratio
-                              child: DropdownButtonFormField<String>(
+                              flex: 2,
+                              child: DropdownButtonFormField2<String>(
                                 decoration: myTextFieldDecoration,
 
-                                value: null, // initial value
-                                onChanged: (String? newValue) {
-                                  // handle value change
-                                },
+                                value: null,
+                                onChanged: (String? newValue) {},
                                 items: const [
                                   DropdownMenuItem(
                                     value: "Yes",
@@ -1297,8 +1035,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1312,8 +1049,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1327,8 +1063,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1342,8 +1077,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1353,12 +1087,11 @@ value: selectMeterWarranty,
                         Row(
                           children: [
                             Expanded(flex: 2, child: const Text("IMPORT MD")),
-                            // const Spacer(),
+
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1369,12 +1102,11 @@ value: selectMeterWarranty,
                         Row(
                           children: [
                             Expanded(flex: 2, child: const Text("EXPORT MD")),
-                            // const Spacer(),
+
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1388,8 +1120,7 @@ value: selectMeterWarranty,
                             Expanded(
                               flex: 2,
                               child: TextField(
-                                textAlign:
-                                    TextAlign.right, // Align text to the right
+                                textAlign: TextAlign.right,
                                 keyboardType: TextInputType.number,
                                 decoration: myTextFieldDecoration,
                               ),
@@ -1403,16 +1134,14 @@ value: selectMeterWarranty,
                               flex: 2,
                               child: const Text("METER SATISFACTORY"),
                             ),
-                            // const Spacer(),
+
                             Expanded(
-                              flex: 2, // controls width ratio
+                              flex: 2,
                               child: DropdownButtonFormField<String>(
                                 decoration: myTextFieldDecoration,
 
-                                value: null, // initial value
-                                onChanged: (String? newValue) {
-                                  // handle value change
-                                },
+                                value: null,
+                                onChanged: (String? newValue) {},
                                 items: const [
                                   DropdownMenuItem(
                                     value: "Yes",
@@ -1460,17 +1189,14 @@ value: selectMeterWarranty,
                         ],
                       ),
                       TextField(
-                        minLines: 5, // Minimum number of lines (height)
-                        maxLines: null, // Unlimited lines — expands as you type
-                        keyboardType: TextInputType
-                            .multiline, // Ensures 'Enter' key works for new line
+                        minLines: 5,
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
                         decoration: InputDecoration(
                           hintText: "Enter your remarks here...",
-                          border: OutlineInputBorder(), // Full box border
+                          border: OutlineInputBorder(),
                         ),
-                        onChanged: (value) {
-                          // Handle input change
-                        },
+                        onChanged: (value) {},
                       ),
 
                       // Division Dropdown
@@ -1481,17 +1207,27 @@ value: selectMeterWarranty,
 
               const SizedBox(height: 20),
 
+              //This is modified
               Container(
                 height: 60,
                 width: double.infinity,
-                color: Colors.red,
-
-                // decoration:BoxDecoration(
-                //   borderRadius: BorderRadius.circular(2),
-                // ),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(
+                    10,
+                  ), // Adjust radius as needed
+                ),
                 child: TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ), // Same radius here for clipping
+                    ),
+                  ),
                   onPressed: () {},
-                  child: Text("Submit", style: TextStyle(color: Colors.white)),
+                  child: const Text("Submit"),
                 ),
               ),
             ],
